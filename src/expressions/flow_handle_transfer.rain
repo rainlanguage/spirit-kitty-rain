@@ -1,0 +1,19 @@
+/* expression for handling transfers (i.e. soulbound logic) */
+
+
+/* START SOURCE 0 */
+
+to: context<0 0>(),
+from: context<0 1>(),
+token-id: context<0 2>(),
+
+litter: decode-256<0 8>(token-id),
+kitty: decode-256<8 8>(token-id),
+
+/* litter 00 (00_x kitty council) tokens are all soulbound */
+: ensure(litter),
+
+/* kitty 00 (x_00 ARHero) tokens are all soulbound */
+: ensure(kitty);
+
+/* END SOURCE 0 */

@@ -1,0 +1,18 @@
+/* tokenURI entrypoint */
+
+
+/* START SOURCE 0 */
+
+token-id: context<1 0>(),
+
+litter: decode-256<0 8>(token-id),
+kitty: decode-256<8 8>(token-id),
+
+/* is valid token id */
+: ensure(less-than(kitty 148)),
+: ensure(less-than(litter 148)),
+
+/* return tokenId */
+_: context<1 0>();
+
+/* END SOURCE 0 */
