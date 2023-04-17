@@ -50,6 +50,8 @@ price: chainlink-price(feed stale-after),
 /* $250 USD equivalence */
 min-btc-transfer: prb-div(250 price),
 
+/* TODO: increment mint counter for litter */
+
 /* flows */
 erc-1155-transfers: sentinel,
 erc-721-transfers: sentinel,

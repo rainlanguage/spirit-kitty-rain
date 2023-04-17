@@ -36,14 +36,14 @@ whitelist-duration: mul(60 60 24 2),
 /* is not already minted */
 : ensure(not(erc-721-owner-of(token-addr token-id))),
 
-/* fetch ETH/USD price */
+/* fetch BTC/USD price */
 feed: 0xf4030086522a5beea4988f8ca5b36dbc97bee88c,
 /* this pair has 60min heartbeat, so we set at bit more than heartbeat */
 stale-after: mul(60 75),
 price: chainlink-price(feed stale-after),
 
 /* $300 USD equivalence */
-min-eth-transfer: prb-div(300 price),
+min-btc-transfer: prb-div(300 price),
 
 /* flows */
 erc-1155-transfers: sentinel,
