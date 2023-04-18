@@ -1,13 +1,21 @@
-# foundry.template
+# Spirit Kitty x Rain
 
-Docs at https://rainprotocol.github.io/foundry.template
+## Usage
 
-## Use as template
+It is recommended to use VS Code for the best Rain tooling support.
+
+Clone this repo and open in [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers).
+
+Then, install submodules with `forge install`
+
+### REPL
+
+We can use Chisel to fork Mumbai testnet and try things out, e.g.
 
 ```
-forge init -t rainprotocol/foundry.template <projectname>
-cd <projectname>
-forge install foundry-rs/forge-std
+chisel -f <rpc-url>
 ```
 
-Then update the readme, set the docs url and configure github pages on github repo settings.
+RPC URLs for Mumbai are listed [here](https://chainlist.org/chain/80001).
+
+Export your session to `scripts/` folder with `!export`
