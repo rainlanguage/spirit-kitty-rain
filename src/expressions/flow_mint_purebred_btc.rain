@@ -1,4 +1,8 @@
-/* .flow() expression for minting token during whitelist period */
+/**
+ * .flow() expression for LL to mint purebred kitty
+ * At least 75 kitties in the corresponding litter must have been minted during whitelist period for LL to be eligible to claim purebred kitty.
+ * LL does not need to claim their purebred during whitelist period, they can claim during or after whitelist period, so long as at least 75 kitties were minted during whitelist.
+ */
 
 
 /* START SOURCE 0 */
@@ -15,28 +19,21 @@ litter: context<1 1>(),
 
 token-id: encode-256<8 8>(litter kitty),
 
-start: get(hash(litter 0x1)),
-
-/* 48 hour whitelist */
-whitelist-duration: mul(60 60 24 2),
-
-/* is whitelist period */
-: ensure(greater-than(block-timestamp() start)),
-: ensure(less-than(block-timestamp() add(start whitelist-duration))),
-
-/* is valid token id */
-: ensure(less-than(kitty 148)),
+/* is valid token id (litter, and implicitly kitty) */
 : ensure(less-than(litter 148)),
 
-/* is not Purebred (use Purebred expression instead) */
-: ensure(not(equal-to(kitty litter))),
+/* is purebred x_x */
+: ensure(equal-to(kitty litter)),
 
-/* is not soulbound kitty x_00 (use ARHero expression instead) */
-: ensure(not(is-zero(kitty))),
+/* were at least 75 kitties minted in litter during whitelist */
+key-mint-counter: hash(litter 0x2),
+mint-counter: get(key-mint-counter),
+: ensure(greater-than(mint-counter 74)),
 
-/* is approved for whitelist */
-key-address: hash(litter 0x1 sender),
-: ensure(get(key-address)),
+expected-litter-leader: erc-721-owner-of(token-addr encode-256<8 8>(0 litter)),
+
+/* sender is LL for litter corresponding to this purebred  */
+: ensure(equal-to(sender expected-litter-leader)),
 
 /* is not already minted */
 : ensure(not(erc-721-owner-of(token-addr token-id))),
@@ -49,11 +46,6 @@ price: chainlink-price(feed stale-after),
 
 /* $250 USD equivalence */
 btc-amount: prb-div(250e18 price),
-
-/* increment mint counter for litter (only occurs for whitelist mints) */
-key-mint-counter: hash(litter 0x2),
-mint-counter: get(key-mint-counter),
-: set(key-mint-counter add(mint-counter 1)),
 
 /* flows */
 erc1155s: sentinel,

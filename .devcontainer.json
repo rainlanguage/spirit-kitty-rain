@@ -5,7 +5,8 @@
 		"extensions": [
 			"JuanBlanco.solidity",
 			"ms-azuretools.vscode-docker",
-			"bungcip.better-toml"
+			"bungcip.better-toml",
+			"rainprotocol.rainlang-vscode"
 		]
 	}
 }

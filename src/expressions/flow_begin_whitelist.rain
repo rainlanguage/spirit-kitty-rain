@@ -39,10 +39,10 @@ start: get(key-start),
 
 /* flows */
 /* no flows should occur in begin whitelist flow, we're just setting store values */
-erc-1155-transfers: sentinel,
-erc-721-transfers: sentinel,
-erc-20-transfers: sentinel,
-native-transfers: sentinel,
+erc1155s: sentinel,
+erc721s: sentinel,
+erc20s: sentinel,
+natives: sentinel,
 burns: sentinel721,
 mints: sentinel721;
 

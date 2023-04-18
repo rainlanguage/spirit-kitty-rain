@@ -43,15 +43,15 @@ stale-after: mul(60 75),
 price: chainlink-price(feed stale-after),
 
 /* $300 USD equivalence */
-min-btc-transfer: prb-div(300 price),
+btc-amount: prb-div(300e18 price),
 
 /* flows */
-erc-1155-transfers: sentinel,
-erc-721-transfers: sentinel,
-erc-20-transfers: sentinel,
+erc1155s: sentinel,
+erc721s: sentinel,
+erc20s: sentinel,
   /* TODO: transfer BTC */
 
-native-transfers: sentinel,
+natives: sentinel,
 burns: sentinel721,
 mints: sentinel721;
   /* TODO: mint NFT */

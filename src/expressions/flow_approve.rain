@@ -25,15 +25,15 @@ approved-counter: get(key-counter),
 
 /* approve each address in context column */
 /* <cols-width starting-col source-index>(accumulators) */
-/* note that outputs are meaningless, fold-context expects output for every input */
+/* note that the LHS outputs here are meaningless, fold-context just expects an output for every input, when we're intending to simply pass some inputs down to source1 */
 _ _: fold-context<0 1 1>(litter approved-counter),
 
 /* flows */
 /* no flows should occur in approval flow, we're just setting store values */
-erc-1155-transfers: sentinel,
-erc-721-transfers: sentinel,
-erc-20-transfers: sentinel,
-native-transfers: sentinel,
+erc1155s: sentinel,
+erc721s: sentinel,
+erc20s: sentinel,
+natives: sentinel,
 burns: sentinel721,
 mints: sentinel721;
 
