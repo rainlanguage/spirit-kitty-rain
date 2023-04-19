@@ -19,7 +19,7 @@ sender: context<0 0>(),
 kitty: context<1 0>(),
 litter: context<1 1>(),
 
-token-id: encode-256<8 8>(litter kitty),
+token-id: encode-256<8 8>(kitty litter),
 
 /* is valid token id (litter, and implicitly kitty) */
 : ensure(less-than(litter 148)),
@@ -33,7 +33,7 @@ key-mint-counter: hash(litter 0x2),
 mint-counter: get(key-mint-counter),
 : ensure(greater-than(mint-counter 74)),
 
-expected-litter-leader: erc-721-owner-of(this encode-256<8 8>(0 litter)),
+expected-litter-leader: erc-721-owner-of(this encode-256<8 8>(litter 0)),
 
 /* sender is LL for litter corresponding to this purebred  */
 : ensure(equal-to(sender expected-litter-leader)),

@@ -15,7 +15,7 @@ sender: context<0 0>(),
 kitty: context<1 0>(),
 litter: context<1 1>(),
 
-token-id: encode-256<8 8>(litter kitty),
+token-id: encode-256<8 8>(kitty litter),
 
 start: get(hash(litter 0x1)),
 

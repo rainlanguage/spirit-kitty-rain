@@ -18,7 +18,7 @@ litter: council-kitty,
 delay: context<1 1>(),
 
 /* 00_x */
-leader-id: encode-256<8 8>(0 council-kitty),
+leader-id: encode-256<8 8>(council-kitty 0),
 
 /* caller must be Litter Leader */
 : ensure(equal-to(erc-721-owner-of(this leader-id) sender)),
