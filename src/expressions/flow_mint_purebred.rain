@@ -7,10 +7,12 @@
 
 /* START SOURCE 0 */
 
+msig-addr: 0x0000000000000000000000000000000000000000000000000000000000000001,
+
 sentinel: 0xfea74d0c9bf4a3c28f0dd0674db22a3d7f8bf259c56af19f4ac1e735b156974f,
 sentinel721: 0xfe90d819490b07580877ce7c3005704048c62af96c6745886d7e356e0b63924a,
 
-token-addr: context<0 1>(),
+this: context<0 1>(),
 sender: context<0 0>(),
 
 /* the token we want to mint */
@@ -25,37 +27,35 @@ token-id: encode-256<8 8>(litter kitty),
 /* is purebred x_x */
 : ensure(equal-to(kitty litter)),
 
-/* were at least 75 kitties minted in litter during whitelist */
+/* were at least 75 kitties minted in litter during whitelist? */
+/* kitties minted in public sale after whitelist do not count towards unlocking purebred */
 key-mint-counter: hash(litter 0x2),
 mint-counter: get(key-mint-counter),
 : ensure(greater-than(mint-counter 74)),
 
-expected-litter-leader: erc-721-owner-of(token-addr encode-256<8 8>(0 litter)),
+expected-litter-leader: erc-721-owner-of(this encode-256<8 8>(0 litter)),
 
 /* sender is LL for litter corresponding to this purebred  */
 : ensure(equal-to(sender expected-litter-leader)),
 
 /* is not already minted */
-: ensure(not(erc-721-owner-of(token-addr token-id))),
+: ensure(not(erc-721-owner-of(this token-id))),
 
-/* fetch BTC/USD price */
-feed: 0xf4030086522a5beea4988f8ca5b36dbc97bee88c,
+/* fetch ETH/USD price (assumes native is ETH) */
+feed: 0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419,
 /* this pair has 60min heartbeat, so we set at bit more than heartbeat */
 stale-after: mul(60 75),
 price: chainlink-price(feed stale-after),
 
 /* $250 USD equivalence */
-btc-amount: prb-div(250e18 price),
+amount: prb-div(250e18 price),
 
 /* flows */
 erc1155s: sentinel,
 erc721s: sentinel,
 erc20s: sentinel,
-  /* TODO: transfer BTC */
-
-natives: sentinel,
+natives from to amount-native: sentinel sender msig-addr amount,
 burns: sentinel721,
-mints: sentinel721;
-  /* TODO: mint NFT */
+mints owner id: sentinel721 sender token-id;
 
 /* END SOURCE 0 */
