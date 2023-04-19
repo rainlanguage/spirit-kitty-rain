@@ -13,6 +13,6 @@ kitty: decode-256<8 8>(token-id),
 : ensure(less-than(litter 148)),
 
 /* return tokenId */
-_: context<1 0>();
+_: token-id;
 
 /* END SOURCE 0 */
