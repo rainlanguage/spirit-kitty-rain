@@ -11,6 +11,8 @@ optimizer_runs = 100000
 
 fuzz.runs = 1024
 
+eth-rpc-url = "https://endpoints.omniatech.io/v1/matic/mumbai/public"
+
 [profile.default.model_checker]
 contracts = {'src/LibFoo.sol' = ['LibFoo']}
 engine = 'chc'
