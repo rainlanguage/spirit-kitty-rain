@@ -1,0 +1,39 @@
+/* expressions for handling transfers (i.e. soulbound logic) */
+/* and validating token id when getting tokenURI */
+
+
+/* START SOURCE 0 */
+/* sourceHandleTransfer */
+
+to: context<0 0>(),
+from: context<0 1>(),
+token-id: context<0 2>(),
+
+litter: decode-256<0 8>(token-id),
+kitty: decode-256<8 8>(token-id),
+
+/* litter 00 (00_x kitty council) tokens are all soulbound */
+: ensure(litter),
+
+/* kitty 00 (x_00 ARHero) tokens are all soulbound */
+: ensure(kitty);
+
+/* END SOURCE 0 */
+
+
+/* START SOURCE 1 */
+/* sourceTokenURI */
+
+token-id: context<1 0>(),
+
+litter: decode-256<0 8>(token-id),
+kitty: decode-256<8 8>(token-id),
+
+/* is valid token id */
+: ensure(less-than(kitty 148)),
+: ensure(less-than(litter 148)),
+
+/* return tokenId */
+_: token-id;
+
+/* END SOURCE 1 */
