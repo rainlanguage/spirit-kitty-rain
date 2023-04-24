@@ -13,13 +13,16 @@ contract SpiritKitty is Script {
     using stdJson for string;
 
     string json;
-    address flow;
 
     function setUp() public {
         // Read from the config file
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/script/config.json");
         json = vm.readFile(path);
+    }
+
+    function run() public {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
 
         IFlowERC721V2 flowERC721Implementation_ = IFlowERC721V2(
             stdJson.readAddress(json, ".flowERC721")
@@ -77,6 +80,8 @@ contract SpiritKitty is Script {
 
         address clone_ = Clones.clone(address(flowERC721Implementation_));
 
+        vm.startBroadcast(deployerPrivateKey);
+
         ICloneableV1(clone_).initialize(
             abi.encode(
                 FlowERC721Config(
@@ -89,16 +94,11 @@ contract SpiritKitty is Script {
             )
         );
 
-        flow = clone_;
+        vm.stopBroadcast();
 
-        // vm.startBroadcast();
-        // vm.stopBroadcast();
-    }
-
-    function run() public {
         // Same Flow contract wrapped with different interfaces
-        // IFlowERC721V2 flowERC721 = IFlowERC721V2(address(flow));
-        // IERC721Metadata flowERC721Metadata = IERC721Metadata(address(flow));
-        // flowERC721Metadata.tokenURI(0x0102);
+        IFlowERC721V2 flowERC721 = IFlowERC721V2(address(clone_));
+        IERC721Metadata flowERC721Metadata = IERC721Metadata(address(clone_));
+        flowERC721Metadata.tokenURI(0x0102);
     }
 }
