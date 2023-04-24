@@ -8,3 +8,7 @@
 [submodule "lib/rain.interface.factory"]
 	path = lib/rain.interface.factory
 	url = https://github.com/rainprotocol/rain.interface.factory
+[submodule "lib/openzeppelin-contracts-upgradeable"]
+	path = lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
+	branch = v4.8.3
