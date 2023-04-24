@@ -2,7 +2,6 @@
   "name": "SpiritKitty",
   "symbol": "SK",
   "baseURI": "https://arpet.club/kitty-corner/",
-  "cloneFactory": "0x7e58B418bAA10e812884D4ABbE5e72593EFFE471",
   "flowERC721": "0xBAc970976b1e3293c640e045acA4ee83f0231A5C",
   "expressionDeployer": "0x703A4C3Fae78A3F57894c1093Ae1D06750939D0F",
   "constants": [

@@ -3,9 +3,10 @@ pragma solidity ^0.8.13;
 
 import "../lib/forge-std/src/Script.sol";
 import "../lib/forge-std/src/StdJson.sol";
-import "../lib/rain.interface.factory/src/ICloneFactoryV1.sol";
+import "../lib/rain.interface.factory/src/ICloneableV1.sol";
 import {FlowERC721Config, IFlowERC721V2, EvaluableConfig, IExpressionDeployerV1} from "../lib/rain.interface.flow/src/IFlowERC721V2.sol";
 import {IERC721Metadata} from "../lib/forge-std/src/interfaces/IERC721.sol";
+import {ClonesUpgradeable as Clones} from "../lib/openzeppelin-contracts-upgradeable/contracts/proxy/ClonesUpgradeable.sol";
 
 contract SpiritKitty is Script {
     using stdJson for address;
@@ -20,10 +21,7 @@ contract SpiritKitty is Script {
         string memory path = string.concat(root, "/script/config.json");
         json = vm.readFile(path);
 
-        ICloneableFactoryV1 cloneFactory_ = ICloneableFactoryV1(
-            stdJson.readAddress(json, ".cloneFactory")
-        );
-        IFlowERC721V2 flowERC721_ = IFlowERC721V2(
+        IFlowERC721V2 flowERC721Implementation_ = IFlowERC721V2(
             stdJson.readAddress(json, ".flowERC721")
         );
         IExpressionDeployerV1 expressionDeployer_ = IExpressionDeployerV1(
@@ -77,24 +75,30 @@ contract SpiritKitty is Script {
             stdJson.readUintArray(json, ".flows.flow_mint_whitelist.constants")
         );
 
-        FlowERC721Config memory config = FlowERC721Config(
-            stdJson.readString(json, ".name"),
-            stdJson.readString(json, ".symbol"),
-            stdJson.readString(json, ".baseURI"),
-            EvaluableConfig(expressionDeployer_, sources, constants),
-            flows
+        address clone_ = Clones.clone(address(flowERC721Implementation_));
+
+        ICloneableV1(clone_).initialize(
+            abi.encode(
+                FlowERC721Config(
+                    stdJson.readString(json, ".name"),
+                    stdJson.readString(json, ".symbol"),
+                    stdJson.readString(json, ".baseURI"),
+                    EvaluableConfig(expressionDeployer_, sources, constants),
+                    flows
+                )
+            )
         );
 
-        vm.startBroadcast();
-        flow = cloneFactory_.clone(address(flowERC721_), abi.encode(config));
-        vm.stopBroadcast();
+        flow = clone_;
+
+        // vm.startBroadcast();
+        // vm.stopBroadcast();
     }
 
     function run() public {
         // Same Flow contract wrapped with different interfaces
-        IFlowERC721V2 flowERC721 = IFlowERC721V2(address(flow));
-        IERC721Metadata flowERC721Metadata = IERC721Metadata(address(flow));
-
-        flowERC721Metadata.tokenURI(0x0102);
+        // IFlowERC721V2 flowERC721 = IFlowERC721V2(address(flow));
+        // IERC721Metadata flowERC721Metadata = IERC721Metadata(address(flow));
+        // flowERC721Metadata.tokenURI(0x0102);
     }
 }

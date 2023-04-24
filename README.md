@@ -13,5 +13,11 @@ Then, install submodules with `forge install`
 See [foundry docs](https://book.getfoundry.sh/tutorials/solidity-scripting#deploying-locally)
 
 ```
+anvil --fork-url https://polygon-mumbai.g.alchemy.com/v2/demo
+```
+
+Alternative RPC URLs [here](https://chainlist.org/chain/80001)
+
+```
 forge script script/SpiritKitty.s.sol:SpiritKitty --fork-url http://127.0.0.1:8545 --broadcast
 ```
