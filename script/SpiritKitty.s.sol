@@ -5,6 +5,7 @@ import "../lib/forge-std/src/Script.sol";
 import "../lib/forge-std/src/StdJson.sol";
 import "../lib/rain.interface.factory/src/ICloneFactoryV1.sol";
 import {FlowERC721Config, IFlowERC721V2, EvaluableConfig, IExpressionDeployerV1} from "../lib/rain.interface.flow/src/IFlowERC721V2.sol";
+import {IERC721Metadata} from "../lib/forge-std/src/interfaces/IERC721.sol";
 
 contract SpiritKitty is Script {
     using stdJson for address;
@@ -12,11 +13,12 @@ contract SpiritKitty is Script {
 
     string json;
     IFlowERC721V2 flowERC721;
+    IERC721Metadata flowERC721Metadata;
 
     function setUp() public {
         // Read from the config file
         string memory root = vm.projectRoot();
-        string memory path = string.concat(root, "/script/spiritKitty.json");
+        string memory path = string.concat(root, "/script/config.json");
         json = vm.readFile(path);
 
         ICloneableFactoryV1 cloneFactory_ = ICloneableFactoryV1(
@@ -87,10 +89,10 @@ contract SpiritKitty is Script {
         flowERC721 = IFlowERC721V2(
             cloneFactory_.clone(address(flowERC721_), abi.encode(config))
         );
+        flowERC721Metadata = IERC721Metadata(address(flowERC721));
     }
 
     function run() public {
-        // vm.startBroadcast();
-        // vm.stopBroadcast();
+        flowERC721Metadata.tokenURI(0x0102);
     }
 }

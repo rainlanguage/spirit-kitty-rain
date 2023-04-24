@@ -8,6 +8,10 @@ Clone this repo and open in [Dev Container](https://code.visualstudio.com/docs/d
 
 Then, install submodules with `forge install`
 
-### Deploying and Testing
+### Local Deploy and Testing
 
-RPC URLs for Mumbai are listed [here](https://chainlist.org/chain/80001).
+See [foundry docs](https://book.getfoundry.sh/tutorials/solidity-scripting#deploying-locally)
+
+```
+forge script script/SpiritKitty.s.sol:SpiritKitty --fork-url http://127.0.0.1:8545 --broadcast
+```

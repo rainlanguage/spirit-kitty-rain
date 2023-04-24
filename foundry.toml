@@ -11,7 +11,7 @@ optimizer_runs = 100000
 
 fuzz.runs = 1024
 
-eth-rpc-url = "https://endpoints.omniatech.io/v1/matic/mumbai/public"
+fs_permissions = [{ access = "read", path = "./"}]
 
 [profile.default.model_checker]
 contracts = {'src/LibFoo.sol' = ['LibFoo']}
