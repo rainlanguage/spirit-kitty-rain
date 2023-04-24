@@ -12,8 +12,7 @@ contract SpiritKitty is Script {
     using stdJson for string;
 
     string json;
-    IFlowERC721V2 flowERC721;
-    IERC721Metadata flowERC721Metadata;
+    address flow;
 
     function setUp() public {
         // Read from the config file
@@ -86,13 +85,16 @@ contract SpiritKitty is Script {
             flows
         );
 
-        flowERC721 = IFlowERC721V2(
-            cloneFactory_.clone(address(flowERC721_), abi.encode(config))
-        );
-        flowERC721Metadata = IERC721Metadata(address(flowERC721));
+        vm.startBroadcast();
+        flow = cloneFactory_.clone(address(flowERC721_), abi.encode(config));
+        vm.stopBroadcast();
     }
 
     function run() public {
+        // Same Flow contract wrapped with different interfaces
+        IFlowERC721V2 flowERC721 = IFlowERC721V2(address(flow));
+        IERC721Metadata flowERC721Metadata = IERC721Metadata(address(flow));
+
         flowERC721Metadata.tokenURI(0x0102);
     }
 }
