@@ -3,6 +3,7 @@
  * At least 75 kitties in the corresponding litter must have been minted during whitelist period for LL to be eligible to claim purebred kitty.
  * LL does not need to claim their purebred during whitelist period, they can claim during or after whitelist period, so long as at least 75 kitties were minted during whitelist.
  */
+@0xc4a4ab154dec61b0036b5882af23240a1ad518ce6c3212110585fca3647cd304
 
 
 /* START SOURCE 0 */
@@ -45,10 +46,10 @@ expected-litter-leader: erc-721-owner-of(this encode-256<8 8>(litter 0)),
 feed: 0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419,
 /* this pair has 60min heartbeat, so we set at bit more than heartbeat */
 stale-after: mul(60 75),
-price: chainlink-price(feed stale-after),
+token-price: chainlink-price(feed stale-after),
 
 /* $250 USD equivalence */
-amount: prb-div(250e18 price),
+amount: prb-div(250e18 token-price),
 
 /* flows */
 erc1155s: sentinel,
