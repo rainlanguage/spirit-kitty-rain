@@ -12,3 +12,6 @@
 	path = lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
 	branch = v4.8.3
+[submodule "lib/rain.interface.interpreter"]
+	path = lib/rain.interface.interpreter
+	url = https://github.com/rainprotocol/rain.interface.interpreter
