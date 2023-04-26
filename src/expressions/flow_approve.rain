@@ -49,11 +49,13 @@ key-counter: hash(litter 0x0),
 key-address: hash(litter 0x1 address-to-approve),
 
 /* an address must not already be approved, revert transaction */
-: ensure(not(get(key-address))),
-: set(key-address 1),
+get-address: get(key-address);
+/* is-not-approved: not(get-address), */
+/* : ensure(is-not-approved); */
+/* : set(key-address 1); */
 
 /* must not approve more than 300 addresses */
-: ensure(less-than(approved-counter 300)),
-: set(key-counter add(approved-counter 1));
+/* : ensure(less-than(approved-counter 300)),
+: set(key-counter add(approved-counter 1)); */
 
 /* END SOURCE 1 */

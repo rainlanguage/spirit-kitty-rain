@@ -7,18 +7,17 @@ import "../lib/rain.interface.interpreter/src/IExpressionDeployerV1.sol";
 import "../lib/rain.interface.interpreter/src/IInterpreterV1.sol";
 import "../lib/rain.interface.interpreter/src/IInterpreterStoreV1.sol";
 import "../lib/rain.interface.interpreter/src/unstable/IDebugExpressionDeployerV1.sol";
+import "../lib/sol.lib.memory/src/LibUint256Array.sol";
+import "../lib/sol.lib.memory/src/LibUint256Matrix.sol";
+import "../lib/rain.interface.interpreter/src/LibContext.sol";
 
 contract DeployExpression is Script {
     using stdJson for address;
     using stdJson for string;
 
-    using LibStackPointer for uint256[];
-    using LibStackPointer for StackPointer;
     using LibUint256Array for uint256;
     using LibUint256Array for uint256[];
     using LibUint256Matrix for uint256[];
-    using LibInterpreterState for InterpreterState;
-    using LibFixedPointMath for uint256;
 
     string json;
 
@@ -44,29 +43,34 @@ contract DeployExpression is Script {
             json,
             ".flows.flow_approve.sources"
         );
-        uint256[] memory minOutputs = new uint256[](1);
-        minOutputs[0] = 6;
+        // uint256[] memory minOutputs = new uint256[](1);
+        // minOutputs[0] = 6;
+        uint256 minOutputs = 6;
+
+        uint256[] memory callerContext_ = LibUint256Array.arrayFrom(0x0123);
+        SignedContextV1[] memory signedContexts_ = new SignedContextV1[](0);
 
         uint256[][] memory context_ = LibContext.build(
             callerContext_.matrixFrom(),
             signedContexts_
         );
 
+        uint256[] memory initialStack = new uint256[](0);
+
         vm.startBroadcast(deployerPrivateKey);
 
-        // (
-        //     IInterpreterV1 interpreter,
-        //     IInterpreterStoreV1 store,
-        //     address expression
-        // ) = expressionDeployer_.offchainDebugEval(
-        //         sources,
-        //         constants,
-        //         FullyQualifiedNamespace.wrap(0),
-        //         uint256[][] memory context,
-        //         SourceIndex sourceIndex,
-        //         uint256[] memory initialStack,
-        //         minOutputs
-        //     );
+        (
+            uint256[] memory finalStack,
+            uint256[] memory kvs
+        ) = expressionDeployer_.offchainDebugEval(
+                sources,
+                constants,
+                FullyQualifiedNamespace.wrap(0),
+                context_,
+                SourceIndex.wrap(0),
+                initialStack,
+                minOutputs
+            );
 
         vm.stopBroadcast();
     }
