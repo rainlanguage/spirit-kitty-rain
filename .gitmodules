@@ -15,3 +15,6 @@
 [submodule "lib/rain.interface.interpreter"]
 	path = lib/rain.interface.interpreter
 	url = https://github.com/rainprotocol/rain.interface.interpreter
+[submodule "lib/sol.lib.memory"]
+	path = lib/sol.lib.memory
+	url = https://github.com/rainprotocol/sol.lib.memory
