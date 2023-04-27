@@ -9,8 +9,8 @@ msig-addr: 0x0000000000000000000000000000000000000000000000000000000000000001,
 sentinel: 0xfea74d0c9bf4a3c28f0dd0674db22a3d7f8bf259c56af19f4ac1e735b156974f,
 sentinel721: 0xfe90d819490b07580877ce7c3005704048c62af96c6745886d7e356e0b63924a,
 
-this: context<0 1>(),
 sender: context<0 0>(),
+this: context<0 1>(),
 
 /* the token we want to mint */
 kitty: context<1 0>(),

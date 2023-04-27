@@ -33,50 +33,50 @@ contract SpiritKitty is Script {
 
         uint256[] memory constants = stdJson.readUintArray(json, ".constants");
         bytes[] memory sources = stdJson.readBytesArray(json, ".sources");
-        EvaluableConfig[] memory flows = new EvaluableConfig[](6);
+        EvaluableConfig[] memory flows = new EvaluableConfig[](0);
 
-        flows[0] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(json, ".flows.flow_approve.sources"),
-            stdJson.readUintArray(json, ".flows.flow_approve.constants")
-        );
-        flows[1] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(json, ".flows.flow_begin_whitelist.sources"),
-            stdJson.readUintArray(json, ".flows.flow_begin_whitelist.constants")
-        );
-        flows[2] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(
-                json,
-                ".flows.flow_mint_arhero_x_00.sources"
-            ),
-            stdJson.readUintArray(
-                json,
-                ".flows.flow_mint_arhero_x_00.constants"
-            )
-        );
-        flows[3] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(json, ".flows.flow_mint_public.sources"),
-            stdJson.readUintArray(json, ".flows.flow_mint_public.constants")
-        );
-        flows[4] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(
-                json,
-                ".flows.flow_mint_purebred_x_x.sources"
-            ),
-            stdJson.readUintArray(
-                json,
-                ".flows.flow_mint_purebred_x_x.constants"
-            )
-        );
-        flows[5] = EvaluableConfig(
-            expressionDeployer_,
-            stdJson.readBytesArray(json, ".flows.flow_mint_whitelist.sources"),
-            stdJson.readUintArray(json, ".flows.flow_mint_whitelist.constants")
-        );
+        // flows[0] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(json, ".flows.flow_approve.sources"),
+        //     stdJson.readUintArray(json, ".flows.flow_approve.constants")
+        // );
+        // flows[1] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(json, ".flows.flow_begin_whitelist.sources"),
+        //     stdJson.readUintArray(json, ".flows.flow_begin_whitelist.constants")
+        // );
+        // flows[2] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(
+        //         json,
+        //         ".flows.flow_mint_arhero_x_00.sources"
+        //     ),
+        //     stdJson.readUintArray(
+        //         json,
+        //         ".flows.flow_mint_arhero_x_00.constants"
+        //     )
+        // );
+        // flows[3] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(json, ".flows.flow_mint_public.sources"),
+        //     stdJson.readUintArray(json, ".flows.flow_mint_public.constants")
+        // );
+        // flows[4] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(
+        //         json,
+        //         ".flows.flow_mint_purebred_x_x.sources"
+        //     ),
+        //     stdJson.readUintArray(
+        //         json,
+        //         ".flows.flow_mint_purebred_x_x.constants"
+        //     )
+        // );
+        // flows[5] = EvaluableConfig(
+        //     expressionDeployer_,
+        //     stdJson.readBytesArray(json, ".flows.flow_mint_whitelist.sources"),
+        //     stdJson.readUintArray(json, ".flows.flow_mint_whitelist.constants")
+        // );
 
         address clone_ = Clones.clone(address(flowERC721Implementation_));
 
