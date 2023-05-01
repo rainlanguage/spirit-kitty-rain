@@ -1,14 +1,12 @@
 /* .flow() expression for handling whitelist approvals */
-@0xc4a4ab154dec61b0036b5882af23240a1ad518ce6c3212110585fca3647cd304
+@0x47ed85f917e187757bff09371cedcf5c0eb277c27e4673feb2d3cc040c66c993
+@0x36be58e0561b6641cf17d785c9bb2ad465636db1d100be229ef8bd41c6e33a5c
 
 
 /* START SOURCE 0 */
 
 sentinel: 0xfea74d0c9bf4a3c28f0dd0674db22a3d7f8bf259c56af19f4ac1e735b156974f,
 sentinel721: 0xfe90d819490b07580877ce7c3005704048c62af96c6745886d7e356e0b63924a,
-
-sender: context<0 0>(),
-this: context<0 1>(),
 
 /* the council kitty corresponds with litter we are managing */
 council-kitty: context<1 0>(),
@@ -19,22 +17,21 @@ litter: council-kitty,
 leader-id: encode-256<8 8>(council-kitty 0),
 
 /* caller must be Litter Leader, i.e. owns corresponding council soulbound */
-: ensure(equal-to(erc-721-owner-of(this leader-id) sender)),
+: ensure(equal-to(erc-721-owner-of(this-contract() leader-id) caller())),
 
 key-counter: hash(litter 0x0),
 approved-counter: get(key-counter),
 
 /* approve each address in context column */
-/* <cols-width starting-col source-index>(accumulators) */
+/* <starting-row cols-width starting-col source-index>(accumulators) */
 /* note that the LHS outputs here are meaningless, fold-context just expects an output for every input, when we're intending to simply pass some inputs down to source1 */
-_ _: fold-context<0 1 1>(litter approved-counter),
+_ _: fold-context<2 0 1 1>(litter approved-counter),
 
 /* flows */
 /* no flows should occur in approval flow, we're just setting store values */
 erc1155s: sentinel,
 erc721s: sentinel,
 erc20s: sentinel,
-natives: sentinel,
 burns: sentinel721,
 mints: sentinel721;
 
@@ -46,15 +43,15 @@ mints: sentinel721;
 litter approved-counter address-to-approve: ,
 
 key-counter: hash(litter 0x0),
-key-address: hash(litter 0x1 address-to-approve),
+key-address: hash(litter 0x1 address-to-approve);
 
 /* an address must not already be approved (must be unset in kv store), reverts entire transaction */
-is-not-approved: not(get(key-address)),
-: ensure(is-not-approved),
-: set(key-address 1),
+/* is-not-approved: not(get(key-address)), */
+/* : ensure(is-not-approved), */
+/* : set(key-address 1), */
 
 /* must not approve more than 300 addresses */
-: ensure(less-than(approved-counter 300)),
-: set(key-counter add(approved-counter 1));
+/* : ensure(less-than(approved-counter 300)), */
+/* : set(key-counter add(approved-counter 1)); */
 
 /* END SOURCE 1 */
