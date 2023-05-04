@@ -5,36 +5,14 @@
 
 /* START SOURCE 0 */
 /* sourceHandleTransfer */
-
-/* litter: decode-256<0 8>(transfer-token-id()), */
-/* kitty: decode-256<8 8>(transfer-token-id()), */
-
-/* litter 00 (00_x kitty council) tokens are all soulbound */
-/* also allows mints (i.e. from address(0)) */
-/* : ensure(or(not(transfer-caller()) litter)), */
-
-/* kitty 00 (x_00 ARHero) tokens are all soulbound */
-/* also allows mints (i.e. from address(0)) */
-/* : ensure(or(not(transfer-caller()) kitty)); */
-:;
+_: 1;
 
 /* END SOURCE 0 */
 
 
 /* START SOURCE 1 */
 /* sourceTokenURI */
-/* note that this reverts if the `tokenId` has not been minted yet */
-
-token-id: context<1 0>(),
-
-litter: decode-256<0 8>(token-id),
-kitty: decode-256<8 8>(token-id),
-
-/* is valid token id */
-: ensure(less-than(kitty 148)),
-: ensure(less-than(litter 148)),
-
 /* return tokenId */
-_: token-id;
+_: context<1 0>();
 
 /* END SOURCE 1 */
