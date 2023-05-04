@@ -1,6 +1,6 @@
 /* .flow() expression for ARHero to mint zeroth kitty (all soulbound) in any litter */
 @0x47ed85f917e187757bff09371cedcf5c0eb277c27e4673feb2d3cc040c66c993
-@0x36be58e0561b6641cf17d785c9bb2ad465636db1d100be229ef8bd41c6e33a5c
+@0xb45a690d69760662f71ac675f2f411c5462bf6bb0fef4167f48c7cacd99304fb
 
 /* START SOURCE 0 */
 
@@ -10,18 +10,19 @@ sentinel: 0xfea74d0c9bf4a3c28f0dd0674db22a3d7f8bf259c56af19f4ac1e735b156974f,
 sentinel721: 0xfe90d819490b07580877ce7c3005704048c62af96c6745886d7e356e0b63924a,
 
 /* we want to mint the zeroth kitty in this litter */
-litter: context<1 0>(),
+/* litter: context<1 0>(), */
 
-token-id-flow: encode-256<8 8>(0 litter),
+/* token-id-flow: encode-256<8 8>(0 litter), */
 
 /* is valid token id (valid litter) */
-: ensure(less-than(litter 148)),
+/* : ensure(less-than(litter 148)), */
 
 /* flows */
 erc1155s: sentinel,
 erc721s: sentinel,
 erc20s: sentinel,
 burns: sentinel721,
-mints owner id: sentinel721 msig-addr token-id-flow;
+mints: sentinel721;
+/* mints owner id: sentinel721 msig-addr token-id-flow; */
 
 /* END SOURCE 0 */

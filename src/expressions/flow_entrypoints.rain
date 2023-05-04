@@ -1,21 +1,22 @@
 /* expressions for handling transfers (i.e. soulbound logic) */
 /* and validating token id when getting tokenURI */
 @0x47ed85f917e187757bff09371cedcf5c0eb277c27e4673feb2d3cc040c66c993
-@0x36be58e0561b6641cf17d785c9bb2ad465636db1d100be229ef8bd41c6e33a5c
+@0xb45a690d69760662f71ac675f2f411c5462bf6bb0fef4167f48c7cacd99304fb
 
 /* START SOURCE 0 */
 /* sourceHandleTransfer */
 
-litter: decode-256<0 8>(token-id()),
-kitty: decode-256<8 8>(token-id()),
+/* litter: decode-256<0 8>(transfer-token-id()), */
+/* kitty: decode-256<8 8>(transfer-token-id()), */
 
 /* litter 00 (00_x kitty council) tokens are all soulbound */
 /* also allows mints (i.e. from address(0)) */
-: ensure(or(not(from-address()) litter)),
+/* : ensure(or(not(transfer-caller()) litter)), */
 
 /* kitty 00 (x_00 ARHero) tokens are all soulbound */
 /* also allows mints (i.e. from address(0)) */
-: ensure(or(not(from-address()) kitty));
+/* : ensure(or(not(transfer-caller()) kitty)); */
+:;
 
 /* END SOURCE 0 */
 
@@ -24,14 +25,16 @@ kitty: decode-256<8 8>(token-id()),
 /* sourceTokenURI */
 /* note that this reverts if the `tokenId` has not been minted yet */
 
-litter: decode-256<0 8>(token-id()),
-kitty: decode-256<8 8>(token-id()),
+token-id: context<1 0>(),
+
+litter: decode-256<0 8>(token-id),
+kitty: decode-256<8 8>(token-id),
 
 /* is valid token id */
 : ensure(less-than(kitty 148)),
 : ensure(less-than(litter 148)),
 
 /* return tokenId */
-_: token-id();
+_: token-id;
 
 /* END SOURCE 1 */
